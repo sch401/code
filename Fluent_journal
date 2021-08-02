@@ -1,9 +1,13 @@
+  ### For Fluent 17.x
+  
+  
   /file read-case "YHR.cas"
   /adapt/mark-inout-hexahedron yes no -1.15 1.15 -0.35 0.35 0.4 0.5
   /solve initialize initialize-flow
   /solve/patch phase-2 () 0 () mp 0.63
-  /solve/set/transient-controls/error-based-time-stepping yes 0.01 1e-05 1 1e-05 10 0.5 5 3
-  /solve/dual 1000 20000
+  /solve/set/adaptive-time-stepping yes no 0.01 10 1e-3 10 0.5 5 1
+  /solve/set/max-iterations-per-time-step 2000
+  /solve/dual-time-iterate 1000 2000
   /file wd testfinish.dat
   exit
   y
