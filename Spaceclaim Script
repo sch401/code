@@ -1,0 +1,432 @@
+# Python Script, API Version = V20
+ClearAll()
+# 设置草绘平面
+sectionPlane = Plane.PlaneXY
+result = ViewHelper.SetSketchPlane(sectionPlane, Info1)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘圆
+origin = Point2D.Create(MM(0), MM(0))
+result = SketchCircle.Create(origin, MM(168.389))
+
+baseSel = SelectionPoint.Create(CurvePoint1)
+targetSel = SelectionPoint.Create(DatumPoint1)
+
+result = Constraint.CreateCoincident(baseSel, targetSel)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info2)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face1
+secondarySelection = Axis1
+options = ExtrudeFaceOptions()
+options.ForceDoAsExtrude = True
+options.ExtrudeType = ExtrudeType.Cut
+result = ExtrudeFaces.Execute(selection, secondarySelection, MM(336.778), options, Info3)
+# EndBlock
+
+# 将‘实体’重新命名为‘Outer_domain’
+selection = Body1
+result = RenameObject.Execute(selection,"Outer_domain")
+# EndBlock
+
+
+# 创建部件
+selection = Body1
+result = ComponentHelper.MoveBodiesToComponent(selection, Info7)
+# EndBlock
+
+# 设置草绘平面
+selection = Face2
+result = ViewHelper.SetSketchPlane(selection, Info8)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘圆
+origin = Point2D.Create(MM(0), MM(0))
+result = SketchCircle.Create(origin, MM(7.5))
+
+baseSel = Curve1
+targetSel = Curve2
+result = Constraint.CreateConcentric(baseSel, targetSel)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info9)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face3
+options = ExtrudeFaceOptions()
+options.ExtrudeType = ExtrudeType.ForceAdd
+result = ExtrudeFaces.Execute(selection, MM(-224.518), options, Info10)
+# EndBlock
+
+# 创建部件
+selection = Body3
+result = ComponentHelper.MoveBodiesToComponent(selection, Info11)
+# EndBlock
+
+# 设置草绘平面
+selection = Axis2
+result = ViewHelper.SetSketchPlane(selection, Info12)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘矩形
+point1 = Point2D.Create(MM(0),MM(241.518))
+point2 = Point2D.Create(MM(10),MM(241.518))
+point3 = Point2D.Create(MM(10),MM(207.518))
+result = SketchRectangle.Create(point1, point2, point3)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info13)
+# EndBlock
+
+
+# 旋转 1 个面
+selection = Face7
+axisSelection = Edge2
+axis = RevolveFaces.GetAxisFromSelection(selection, axisSelection)
+options = RevolveFaceOptions()
+options.ExtrudeType = ExtrudeType.Add
+result = RevolveFaces.Execute(selection, axis, DEG(360), options)
+# EndBlock
+
+# 创建部件
+selection = Body6
+result = ComponentHelper.MoveBodiesToComponent(selection, Info17)
+# EndBlock
+
+# 将‘组件2’重新命名为‘center’
+selection = Part2
+result = RenameObject.Execute(selection,"center")
+# EndBlock
+
+
+# 设置草绘平面
+selection = Axis2
+result = ViewHelper.SetSketchPlane(selection, Info14)
+# EndBlock
+
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘矩形
+point1 = Point2D.Create(MM(-1.5),MM(236.518))
+point2 = Point2D.Create(MM(-1.5),MM(212.518))
+point3 = Point2D.Create(MM(1.5),MM(212.518))
+result = SketchRectangle.Create(point1, point2, point3)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info15)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face8
+options = ExtrudeFaceOptions()
+options.ExtrudeType = ExtrudeType.ForceAdd
+result = ExtrudeFaces.Execute(selection, MM(120), options, Info16)
+# EndBlock
+
+# 旋转 X 手柄
+selection = Body10
+anchorPoint = Move.GetAnchorPoint(selection)
+axis = Line.Create(anchorPoint, Direction.DirX)
+options = MoveOptions()
+result = Move.Rotate(selection, axis, DEG(45), options, Info20)
+# EndBlock
+
+
+# 创建阵列
+selection = Body11
+data = CircularPatternData()
+data.CircularAxis = DatumLine3
+data.RadialDirection = Direction.Create(0, 0, 0)
+data.CircularCount = 4
+data.CircularAngle = DEG(360)
+result = Pattern.CreateCircular(selection, data, Info21)
+
+# EndBlock
+
+
+
+# 设置草绘平面
+selection = Axis2
+result = ViewHelper.SetSketchPlane(selection, Info26)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘矩形
+point1 = Point2D.Create(MM(0),MM(124.259))
+point2 = Point2D.Create(MM(8),MM(124.259))
+point3 = Point2D.Create(MM(8),MM(98.259))
+result = SketchRectangle.Create(point1, point2, point3)
+# EndBlock
+
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info27)
+# EndBlock
+
+
+# 旋转 1 个面
+selection = Face10
+axisSelection = DatumLine4
+axis = RevolveFaces.GetAxisFromSelection(selection, axisSelection)
+options = RevolveFaceOptions()
+options.ExtrudeType = ExtrudeType.Add
+result = RevolveFaces.Execute(selection, axis, DEG(360), options)
+# EndBlock
+
+
+# 移动 实体
+selections = Body13
+component = Part4
+result = ComponentHelper.MoveBodiesToComponent(selections, component, False, Info28)
+# EndBlock
+
+
+# 设置草绘平面
+selection = Axis2
+result = ViewHelper.SetSketchPlane(selection, Info29)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+
+
+# 草绘矩形
+point1 = Point2D.Create(MM(-1.5),MM(126.259))
+point2 = Point2D.Create(MM(-1.5),MM(98.259))
+point3 = Point2D.Create(MM(1.5),MM(98.259))
+result = SketchRectangle.Create(point1, point2, point3)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info31)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face11
+options = ExtrudeFaceOptions()
+options.ExtrudeType = ExtrudeType.ForceAdd
+result = ExtrudeFaces.Execute(selection, MM(120), options, Info32)
+# EndBlock
+
+
+
+# 旋转 Z 手柄
+selection = Face12
+axis = Move.GetAxis(selection)
+options = MoveOptions()
+result = Move.Rotate(selection, axis, DEG(-0), options, Info34)
+# EndBlock
+
+
+# 创建阵列
+selection = Body15
+data = CircularPatternData()
+data.CircularAxis = DatumLine8
+data.RadialDirection = Direction.Create(0, 0, 0)
+data.CircularCount = 4
+data.CircularAngle = DEG(360)
+result = Pattern.CreateCircular(selection, data, Info35)
+# EndBlock
+
+# 创建部件
+selection = Selection.Create(Component5, Component6, Component7, Component8)
+result = ComponentHelper.MoveBodiesToComponent(selection, Info37)
+
+# EndBlock
+
+# 将‘组件4’重新命名为‘Impeller’
+selection = Part5
+result = RenameObject.Execute(selection,"Impeller")
+# EndBlock
+
+# 设置草绘平面
+sectionPlane = Plane.PlaneXY
+result = ViewHelper.SetSketchPlane(sectionPlane, Info40)
+# EndBlock
+
+# 移动剖面平面
+axis = HandleAxis.Z
+distance = MM(80)
+result = ViewHelper.TransformSectionPlaneAlongAxis(axis, distance)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘圆
+origin = Point2D.Create(MM(0), MM(0))
+result = SketchCircle.Create(origin, MM(150))
+
+baseSel = Curve7
+targetSel = Curve8
+result = Constraint.CreateConcentric(baseSel, targetSel)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info41)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face13
+options = ExtrudeFaceOptions()
+options.ExtrudeType = ExtrudeType.ForceAdd
+result = ExtrudeFaces.Execute(selection, MM(75), options, Info42)
+# EndBlock
+
+
+# 设置草绘平面
+selection = Face14
+result = ViewHelper.SetSketchPlane(selection, Info43)
+# EndBlock
+
+# 移动剖面平面
+axis = HandleAxis.Z
+distance = MM(30)
+result = ViewHelper.TransformSectionPlaneAlongAxis(axis, distance)
+# EndBlock
+
+# 设置新草绘
+result = SketchHelper.StartConstraintSketching()
+# EndBlock
+
+# 草绘圆
+origin = Point2D.Create(MM(0), MM(0))
+result = SketchCircle.Create(origin, MM(150))
+
+baseSel = Curve9
+targetSel = Curve10
+result = Constraint.CreateConcentric(baseSel, targetSel)
+# EndBlock
+
+# 实体化草绘
+mode = InteractionMode.Solid
+result = ViewHelper.SetViewMode(mode, Info44)
+# EndBlock
+
+# 拉伸 1 个面
+selection = Face15
+options = ExtrudeFaceOptions()
+options.ExtrudeType = ExtrudeType.Add
+result = ExtrudeFaces.Execute(selection, MM(80), options, Info45)
+# EndBlock
+
+# 将‘实体’重新命名为‘Inner_domain1’
+selection = Body19
+result = RenameObject.Execute(selection,"Inner_domain1")
+# EndBlock
+
+# 将‘实体’重新命名为‘Inner_domain2’
+selection = Body20
+result = RenameObject.Execute(selection,"Inner_domain2")
+# EndBlock
+
+
+# 合并主体
+targets = BodySelection.Create([GetRootPart().Components[1].Components[3].Components[0].Content.Bodies[0],
+	GetRootPart().Components[1].Components[3].Components[1].Content.Bodies[0],
+	GetRootPart().Components[1].Components[3].Components[2].Content.Bodies[0],
+	GetRootPart().Components[1].Components[3].Components[3].Content.Bodies[0]])
+result = Combine.Merge(targets)
+# EndBlock
+
+
+# 合并主体
+targets = BodySelection.Create([GetRootPart().Components[1].Components[2].Components[2].Content.Bodies[0],
+	GetRootPart().Components[1].Components[2].Components[3].Content.Bodies[0],
+	GetRootPart().Components[1].Components[2].Components[1].Content.Bodies[0],
+	GetRootPart().Components[1].Components[2].Components[0].Content.Bodies[0]])
+result = Combine.Merge(targets)
+# EndBlock
+
+
+# 合并主体
+targets = BodySelection.Create([GetRootPart().Bodies[3],
+	GetRootPart().Components[1].Components[0].Content.Bodies[0],
+	GetRootPart().Components[1].Components[1].Content.Bodies[1],
+	GetRootPart().Components[1].Components[1].Content.Bodies[0],
+	GetRootPart().Bodies[2]])
+result = Combine.Merge(targets)
+# EndBlock
+
+
+# 删除对象
+selection = ComponentSelection.Create(GetRootPart().Components[1])
+result = Delete.Execute(selection)
+# EndBlock
+
+# 将‘实体’重新命名为‘Impeller’
+selection = BodySelection.Create(GetRootPart().Bodies[2])
+result = RenameObject.Execute(selection,"Impeller")
+# EndBlock
+
+
+# 相交主体
+targets = BodySelection.Create(GetRootPart().Bodies[0])
+tools = BodySelection.Create(GetRootPart().Bodies[2])
+options = MakeSolidsOptions()
+result = Combine.Intersect(targets, tools, options)
+# EndBlock
+
+# 相交主体
+targets = BodySelection.Create(GetRootPart().Bodies[1])
+tools = BodySelection.Create(GetRootPart().Bodies[2])
+options = MakeSolidsOptions()
+result = Combine.Intersect(targets, tools, options)
+# EndBlock
+
+# 相交主体
+targets = BodySelection.Create(GetRootPart().Components[0].Content.Bodies[0])
+tools = BodySelection.Create(GetRootPart().Bodies[2])
+options = MakeSolidsOptions()
+result = Combine.Intersect(targets, tools, options)
+# EndBlock
+
+# 相交主体
+targets = BodySelection.Create(GetRootPart().Components[0].Content.Bodies[0])
+tools = BodySelection.Create(GetRootPart().Bodies[1])
+options = MakeSolidsOptions()
+result = Combine.Intersect(targets, tools, options)
+# EndBlock
+
+# 相交主体
+targets = BodySelection.Create(GetRootPart().Components[0].Content.Bodies[0])
+tools = BodySelection.Create(GetRootPart().Bodies[0])
+options = MakeSolidsOptions()
+result = Combine.Intersect(targets, tools, options)
+# EndBlock
