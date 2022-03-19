@@ -1,0 +1,29 @@
+/file read-case "Tank_90_90_drawn_by_scdm_0.005.cas"
+/adapt/mark-inout-cylinder yes no 0 0 0 0 0.224518 0.336778 0.168389
+/surface/plane plane1 0 0 0.2 0.1 0 0.2 0.1 0.1 0.2
+q
+/solve/monitors/residual/convergence-criteria 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.0001
+/solve/report-definitions add report-def-1
+surface-massflowrate
+phase
+mixture
+surface-ids
+plane1
+()
+q
+/solve/report-files add
+Tank_90_90_drawn_by_scdm_0.005
+report-defs
+report-def-1
+()
+print
+yes
+()
+()
+/solve/initialize/hyb-initialization
+/solve/patch phase-2 () 0 () mp 0.2
+/file/auto-save/data-frequency 500
+/solve/it 2000000
+/file wd Tank_90_90_drawn_by_scdm_0.005.dat
+exit
+y
