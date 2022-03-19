@@ -1,8 +1,8 @@
-/file read-case "Tank_90_90_drawn_by_scdm_0.005.cas"
-/adapt/mark-inout-cylinder yes no 0 0 0 0 0.224518 0.336778 0.168389
-/surface/plane plane1 0 0 0.2 0.1 0 0.2 0.1 0.1 0.2
+/file read-case "Tank_90_90_drawn_by_scdm_0.005.cas"   ### Read case
+/adapt/mark-inout-cylinder yes no 0 0 0 0 0.224518 0.336778 0.168389    ### Mark region
+/surface/plane plane1 0 0 0.2 0.1 0 0.2 0.1 0.1 0.2   ### Create monitor plane
 q
-/solve/monitors/residual/convergence-criteria 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.0001
+/solve/monitors/residual/convergence-criteria 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.0001    ### Change the convergence, 0.0001 for vf-phase2
 /solve/report-definitions add report-def-1
 surface-massflowrate
 phase
