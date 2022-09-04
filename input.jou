@@ -1,0 +1,181 @@
+/file/read-case "blank.cas"
+/define/operating-conditions/gravity yes 0 0 -9.81
+/define/unit angular-velocity rpm
+/define/models/viscous/turbulence-expert/turb-non-newtonian yes
+/define/materials/copy
+fluid
+water-liquid
+/define/materials/change-create
+water-liquid
+xanthan
+yes
+constant
+990
+no
+no
+yes
+herschel-bulkley
+shear-rate-dependent
+2.24455
+0.30079
+0.81736
+0.01
+no
+no
+no
+no
+/define/materials/change-create
+air
+particle
+yes
+constant
+850
+n
+n
+n
+n
+n
+n
+yes
+q
+/define/models/multiphase/model eulerian
+/define/phases/phase-domain
+phase-1
+xanthan
+yes
+xanthan
+/define/phases/phase-domain
+phase-2
+particle
+no
+yes
+no
+no
+no
+constant
+0.00038
+gidaspow
+lun-et-al
+schaeffer
+constant
+()
+based-ktgf
+derived
+constant
+0.61
+algebraic
+lun-et-al
+lun-et-al
+derived
+constant
+0.63
+/define/phases/set-domain-properties/interaction-domain/forces/drag
+yes
+gidaspow
+no
+/define/phases/set-domain-properties/interaction-domain/forces/restitution
+yes
+0.9
+/define/models/viscous/ke-standard?
+yes
+/define/boundary-conditions/set/fluid
+part-inner_domain
+()
+mixture
+mrf-motion?
+yes
+mrf-z-origin
+yes
+no
+1
+mrf-omega
+no
+250
+q
+/define/boundary-conditions/set/wall
+impeller-part-outer_domain
+impeller-part-inner_domain
+()
+mixture
+motion-bc
+yes
+motion-bc-moving
+relative? 
+no
+rotating?
+yes
+z-origin
+1
+omega
+250
+q
+/mesh/modify-zones/make-periodic
+per1-part-inner_domain
+per2-part-inner_domain
+yes
+yes
+q
+/mesh/modify-zones/make-periodic
+per1-part-outer_domain
+per2-part-outer_domain
+yes
+yes
+q
+/solve/set/p-v-coupling 24 no no
+/solve/set/pseudo-transient yes yes 1 2 0
+/solve/set/discretization-scheme/mom
+1
+/solve/set/discretization-scheme/k
+1
+/solve/set/discretization-scheme/epsilon
+1
+/solve/set/pseudo-relaxation-factor/mp
+0.2
+/solve/set/pseudo-relaxation-factor/epsilon
+0.4
+/mesh/adapt/cell-registers add
+cell_register_0
+type
+cylinder
+axis-begin
+0
+0
+0.08
+axis-end
+0
+0
+1
+radius
+1
+q
+q
+
+/surface/plane
+plane1
+zx-plane
+0
+q
+/solve/report-definitions add report-def-1
+surface-massflowrate
+surface-ids
+plane1
+()
+q
+/solve/report-files add
+period
+file-name
+"try.def.out"
+report-defs
+report-def-1
+()
+print
+yes
+()
+()
+/solve/monitors/residual/convergence-criteria 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
+/file/auto-save/root-name "try.rootname"
+/file/auto-save/data-frequency 100
+/solve/initialize/hyb-initialization ok
+/solve/patch particle () 0 () mp 0.2
+/solve/iterate 1000
+/file write-case-data "try.cal"
