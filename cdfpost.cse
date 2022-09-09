@@ -1,0 +1,35 @@
+
+
+
+
+>load filename=F:/9.5/1/colllision=0.1/realizable/300/third.cal.cas, \
+force_reload=true
+!$numsteps =51;#建立截面数
+!$delta_z=0.0021;#截面间距
+!$start_z=0;#截面z轴起点
+!for ($i=1; $i <= $numsteps; $i++) {
+! $dis=$start_z+$delta_z*$i;
+PLANE:Plane $i
+  Option = XY Plane
+  X = 0.0 [m]
+  Y = 0.0 [m]
+  Z = $dis [m]
+END
+CONTOUR:Contour $i
+  Colour Variable = Particle.Volume Fraction
+  Location List = Plane $i
+END
+>show /CONTOUR:Contour $i
+!}
+
+! open(OFH, " >> filearea.dat"); # writing to a file
+# for loop start
+! for ($i=1; $i <= 50; $i++) {
+
+ !$cal = area("Particle.Volume Fraction","Plane $i");
+! printf (OFH $cal);
+! printf (OFH "\n");
+!}
+
+! close(OFH);
+
