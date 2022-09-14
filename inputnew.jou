@@ -19,6 +19,10 @@
 /mesh/modify-zones/make-periodic per1-part-outer_domain2 per2-part-outer_domain2 yes yes q
 /solve/set/p-v-coupling 24 no no
 /solve/set/pseudo-transient yes yes 1 2 0
+/solve/set/discretization-scheme/k 1
+/solve/set/discretization-scheme/epsilon 1
+/solve/set/discretization-scheme/mom 1
+/solve/set/discretization-scheme/mp 4
 /mesh/adapt/cell-registers add cell_register_0 type cylinder axis-begin 0 0 0.0965 axis-end 0 0 1 radius 1 q q 
 /surface/plane plane1 zx-plane 0 q
 /solve/report-definitions add report-def-1 surface-massflowrate surface-ids plane1 () q
