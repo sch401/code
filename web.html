@@ -1,0 +1,203 @@
+<html>
+  <head>
+    <title>DMPLW</title>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="echarts.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="data2.js"></script>
+  </head>
+
+  <body>
+    <h1 class="mt-3 mb-5 text-center">
+      Database of Methane Production of Lignocellulosic Waste
+    </h1>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col col-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="schoolcateSelector"
+                >选择学校类别</label
+              >
+            </div>
+            <select class="custom-select" id="schoolcateSelector">
+              <option selected>选择学校类别</option>
+            </select>
+          </div>
+        </div>
+        <div class="col col-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="universitySelector"
+                >选择学校</label
+              >
+            </div>
+            <select class="custom-select" id="universitySelector">
+              <option selected>选择所在学校</option>
+            </select>
+          </div>
+        </div>
+        <div class="col col-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="departmentSelector"
+                >选择院系</label
+              >
+            </div>
+            <select class="custom-select" id="departmentSelector">
+              <option selected>选择所在院系</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+            <div class="col col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="supervisorSelector">选择导师</label>
+                    </div>
+                    <select class="custom-select" id="supervisorSelector">
+                        <option selected>选择姓名</option>
+                    </select>
+                </div>
+            </div> -->
+
+      <div class="col col-6 mb-3 text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="width: 90%"
+          id="confirmBtn"
+        >
+          确认
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="days"></div>
+      <div class="descriptions"></div>
+      <div id="main" style="width: 600px; height: 400px"></div>
+
+      <script type="text/javascript">
+        function getValuesInObjs(arr, key) {
+          var resultArr = new Array();
+          arr.forEach(function (obj) {
+            if (!resultArr.includes(obj[key])) {
+              resultArr.push(obj[key]);
+            }
+          });
+          return resultArr.sort(function (item1, item2) {
+            return item1.localeCompare(item2, "zh");
+          });
+        }
+        function filterValuesInArray(arr, key, value) {
+          var resultArr = new Array();
+          arr.forEach(function (obj) {
+            if (obj[key] == value) {
+              resultArr.push(obj);
+            }
+          });
+          return resultArr;
+        }
+        function setSelectOptions(selector, options) {
+          selector.empty();
+          options.forEach(function (value, i) {
+            var option = new Option(value, i);
+            selector.append($(option));
+            //option.selected = true;
+          });
+        }
+        var schoolcate = $("#schoolcateSelector");
+        var university = $("#universitySelector");
+        var department = $("#departmentSelector");
+        // var supervisor = $('#supervisorSelector');
+        var confirmBtn = $("#confirmBtn");
+        var contentDiv = $(".descriptions");
+        var day = $(".days");
+        var day2 = $(".day2s");
+        var schoolcates = getValuesInObjs(data, "VS");
+        var universities = new Array();
+        var departments = new Array();
+        var supervisors = new Array();
+        var currentCt = "";
+        var currentUn = "";
+        var currentDp = "";
+        var currentSp = "";
+        var descday = [];
+        var descday2 = [];
+        schoolcate.change(function () {
+          currentCt = schoolcates[schoolcate.val()];
+          var thisData = filterValuesInArray(data, "VS", currentCt);
+          universities = getValuesInObjs(thisData, "N");
+          setSelectOptions(university, universities);
+          university.trigger("change");
+        });
+        university.change(function () {
+          currentUn = universities[university.val()];
+          var thisData = filterValuesInArray(data, "N", currentUn);
+          departments = getValuesInObjs(thisData, "LC");
+          setSelectOptions(department, departments);
+          department.trigger("change");
+        });
+        department.change(function () {
+          currentDp = departments[department.val()];
+        });
+        // 重要！！！
+        confirmBtn.click(function () {
+          var thisData = filterValuesInArray(data, "N", currentUn);
+          thisData = filterValuesInArray(thisData, "LC", currentDp);
+          contentDiv.empty();
+          day.empty();
+          day2.empty();
+          var myChart = echarts.init(document.getElementById("main"));
+          thisData.forEach(function (value, i) {
+            var desc = value["content"];
+            var descday = value["day"];
+            var descday2 = value["day2"];
+            var card = $(`<p class="card-text">${desc}</p>`);
+            var carday = $(`<p class="card-text">${descday}</p>`);
+            var carday2 = $(`<p class="card-text">${descday2}</p>`);
+            contentDiv.append($(card));
+            day.append($(carday));
+            day2.append($(carday2));
+            var option = {
+              title: {
+                text: "ECharts 入门示例",
+              },
+              tooltip: {},
+              xAxis: {
+                data: descday,
+              },
+              yAxis: {},
+              series: [
+                {
+                  name: "销量",
+                  type: "bar",
+                  data: descday2,
+                },
+              ],
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+          });
+        });
+
+        setSelectOptions(schoolcate, schoolcates);
+        schoolcate.trigger("change");
+
+        // 指定图表的配置项和数据
+      </script>
+      <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+      </script>
+    </div>
+
+    <p>day</p>
+  </body>
+</html>
