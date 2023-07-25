@@ -1,0 +1,99 @@
+>load filename=E:\40_mesh\change_viscosity\0.2-0.5\300\first-final.dat, force_reload=true
+!$numsteps =50 ;#建立截面数
+!$delta_z=0.002098;#截面间距
+!$start_z=0;#截面z轴起点
+!for ($i=1; $i <= $numsteps; $i++) {
+! $dis=$start_z+$delta_z*$i;
+PLANE:Plane $i
+  Option = XY Plane
+  X = 0.0 [m]
+  Y = 0.0 [m]
+  Z = $dis [m]
+END
+VOLUME:Volume $i
+  Apply Instancing Transform = On
+  Apply Texture = Off
+  Blend Texture = On
+  Colour = 0.75, 0.75, 0.75
+  Colour Map = Default Colour Map
+  Colour Mode = Constant
+  Colour Scale = Linear
+  Colour Variable = Pressure
+  Colour Variable Boundary Values = Conservative
+  Culling Mode = No Culling
+  Domain List = /DOMAIN GROUP:All Domains
+  Draw Faces = On
+  Draw Lines = Off
+  Element Type List = Tet,Pyramid,Wedge,Hex,Polyhedron
+  Inclusive = Off
+  Instancing Transform = /DEFAULT INSTANCE TRANSFORM:Default Transform
+  Isovolume Intersection Mode = At Value
+  Lighting = On
+  Line Colour = 0, 0, 0
+  Line Colour Mode = Default
+  Line Width = 1
+  Location List = /PLANE:Plane $i
+  Max = 0.0
+  Min = 0.0
+  Node Number = 1
+  Option = From Surface
+  Point = 0 [m], 0 [m], 0 [m]
+  Radius = 1.0 [m]
+  Range = Global
+  Render Edge Angle = 0 [degree]
+  Specular Lighting = On
+  Surface Drawing = Flat Shading
+  Texture Angle = 0
+  Texture Direction = 0 , 1 , 0
+  Texture File =
+  Texture Material = Metal
+  Texture Position = 0 , 0
+  Texture Scale = 1
+  Texture Type = Predefined
+  Tile Texture = Off
+  Transform Texture = Off
+  Transparency = 0.0
+  Value 1 = 0.0
+  Value 2 = 0.0
+  Variable = Pressure
+  Variable Boundary Values = Conservative
+  Volume Intersection Mode = Below Intersection
+  OBJECT VIEW TRANSFORM:
+    Apply Reflection = Off
+    Apply Rotation = Off
+    Apply Scale = Off
+    Apply Translation = Off
+    Principal Axis = Z
+    Reflection Plane Option = XY Plane
+    Rotation Angle = 0.0 [degree]
+    Rotation Axis From = 0 [m], 0 [m], 0 [m]
+    Rotation Axis To = 0 [m], 0 [m], 0 [m]
+    Rotation Axis Type = Principal Axis
+    Scale Vector = 1 , 1 , 1
+    Translation Vector = 0 [m], 0 [m], 0 [m]
+    X = 0.0 [m]
+    Y = 0.0 [m]
+    Z = 0.0 [m]
+  END
+END
+
+
+
+
+!}
+
+!   $outputfile = "E:/40_mesh/change_viscosity/0.2-0.5/300/volume_fraction.txt";
+!   open(OFH,">> $outputfile");
+# for loop start
+! for ($i=1; $i <=50; $i++) {
+ !$cal = volumeInt("Particle.Volume Fraction","Volume $i");
+ !$cal2 = volume("Volume $i");
+
+! printf (OFH $cal);
+! printf (OFH "\n");
+
+!}
+
+
+! close(OFH);
+
