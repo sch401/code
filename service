@@ -1,0 +1,4 @@
+cd /www/wwwroot/bcbpd.top 
+nohup java -jar visual-0.0.1-SNAPSHOT.jar & 
+cd /www/wwwroot/predict.sch401.xyz 
+nohup python3 app.py &
