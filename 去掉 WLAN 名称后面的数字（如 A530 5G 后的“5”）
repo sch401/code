@@ -1,0 +1,19 @@
+方法三：检查注册表
+
+如果网络名称仍未恢复，可以手动修改注册表中的网络名称：
+
+    注意：修改注册表有风险，建议备份系统后再操作。
+
+    打开注册表编辑器：
+        按下 Win + R，输入 regedit，然后按回车。
+
+    导航到以下路径：
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles
+
+查找目标网络名称：
+
+    在 Profiles 下查找对应的网络配置（你可以查看 ProfileName 值是否为 A530 5G 5）。
+    双击 ProfileName，将其值修改为 A530 5G。
+
+保存并重启计算机： 修改后关闭注册表编辑器，重启电脑。
