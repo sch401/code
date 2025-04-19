@@ -1,0 +1,158 @@
+(command"_.plot"n布局1"""DWGToPDF.pc3""C:\\Users\\sch401\\Documents\\111.pdf"yn)
+模型
+
+""
+DWGToPDF.pc3
+2.pdf
+N
+n
+
+_.plot是否需要详细打印配置？[是(Y)/否(N)]<否>:nil
+是否需要详细打印配置？[是(Y)/否(N)]<否>:;
+输入布局名或[?]<模型>:;
+<;>未找到。
+输入布局名或[?]<模型>:""
+输入页面设置名<>:;
+<;>未找到。
+输入页面设置名<>:
+输入输出设备的名称或[?]<无>:DWGToPDF.pc3
+是否保存对页面设置的修改[是(Y)/否(N)]?<N>y
+是否继续打印？[是(Y)/否(N)]<Y>:n
+命令:
+命令:
+命令:_plot**打印区域截短到绘图仪的最大值**
+有效打印区域:198.45宽X164.23高
+正在打印视口2。
+
+
+
+
+(command "_.plot"
+"yes"
+""
+"Microsoft Print to PDF"
+"A4"
+"m"
+"l"
+"no"
+"e"
+"f"
+"c"
+"n"
+"."
+"y"
+"a"
+"n"
+"n"
+"y"
+)
+
+
+
+
+
+
+_.layout n "layout1"
+_.layout n "layout2"
+_.layout n "layout3"
+_.layout n "layout4"
+_.layout n "layout5"
+_.layout n "layout6"
+_.layout n "layout7"
+_.layout n "layout8"
+_.layout n "layout9"
+_.layout n "layout10"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+_.layout n "layout2"
+
+
+
+
+(setvar "ctab" "layout2")
+-PAGESETUP
+Adobe PDF
+A4
+M
+L
+N
+W
+
+
+F
+C
+Y
+.
+Y
+N
+N
+Y
+
+
+
+
+
+
+
+命令:(command"_.plot")
+_.plot是否需要详细打印配置？[是(Y)/否(N)]<否>:nil
+是否需要详细打印配置？[是(Y)/否(N)]<否>:y
+输入布局名或[?]<模型>:""
+输入输出设备的名称或[?]<AdobePDF>:MicrosoftPrinttoPDF
+输入图纸尺寸或[?]<A4>:
+输入图纸单位[英寸(I)/毫米(M)]<毫米>:
+输入图形方向[纵向(P)/横向(L)]<纵向>:
+是否上下颠倒打印？[是(Y)/否(N)]<否>:
+输入打印区域[显示(D)/范围(E)/图形界限(L)/视图(V)/窗口(W)]<显示>:
+输入打印比例(打印的毫米=图形单位)或[布满(F)]<布满>:
+输入打印偏移(x,y)或[居中打印(C)]<11.55,-13.65>:c
+是否按样式打印？[是(Y)/否(N)]<是>:n
+输入打印样式表名称或[?](输入.表示无)<>:.
+是否打印线宽？[是(Y)/否(N)]<是>:y
+输入着色打印设置[按显示(A)/传统线框(W)/传统隐藏(H)/视觉样式(V)/渲染(R)]<按显示>:a
+是否打印到文件[是(Y)/否(N)]<N>:n
+是否保存对页面设置的修改[是(Y)/否(N)]?<N>n
+是否继续打印？[是(Y)/否(N)]<Y>:y
+有效打印区域:210.00宽X186.77高
+正在打印视口2。
+
+
+
+
+
+
+
+
+(setvar "ctab" "layout%s")
+-PAGESETUP
+Adobe PDF
+A4
+M
+L
+N
+W
+%s,%s
+%s,%s
+F
+C
+Y
+.
+Y
+N
+N
+Y
+
