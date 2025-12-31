@@ -1,0 +1,71 @@
+(async function() {
+    // 状态变量
+    var updatedItems = 0;
+    var skippedItems = 0;
+    var errorItems = 0;
+
+    // 获取所有文库ID（包括个人和群组）
+    var allLibraries = Zotero.Libraries.getAll();
+    
+    for (let library of allLibraries) {
+        console.log(`正在处理文库: ${library.name} (ID: ${library.libraryID})`);
+        
+        // 1. 设置搜索条件：查找当前文库中的所有"期刊文章"
+        var s = new Zotero.Search();
+        s.libraryID = library.libraryID;
+        s.addCondition('itemType', 'is', 'journalArticle');
+        
+        // 执行搜索，获取当前文库中所有期刊文章的ID
+        var itemIDs = await s.search();
+        
+        if (itemIDs.length === 0) {
+            console.log(`  - 文库 "${library.name}" 中未找到期刊文章`);
+            continue;
+        }
+        
+        console.log(`  - 在文库 "${library.name}" 中找到 ${itemIDs.length} 篇期刊文章`);
+        
+        // 2. 遍历当前文库中的每一个条目
+        for (let id of itemIDs) {
+            let item = await Zotero.Items.getAsync(id);
+            
+            if (!item) {
+                errorItems++;
+                continue;
+            }
+            
+            let title = item.getField('title');
+            
+            if (!title) {
+                skippedItems++;
+                continue;
+            }
+            
+            // 3. 判断标题是否为英文：去除所有非字母数字字符后，若全为英文字母/数字，则视为英文
+            let cleanTitle = title.replace(/[\s\W_]/g, '');
+            let isEnglish = /^[a-zA-Z0-9]+$/.test(cleanTitle);
+            
+            // 4. 如果是英文标题，则将语言字段设为 'en'
+            if (isEnglish) {
+                let currentLanguage = item.getField('language');
+                if (currentLanguage !== 'en') {
+                    item.setField('language', 'en');
+                    await item.save();
+                    updatedItems++;
+                    console.log(`    已更新: ${title.substring(0, 50)}...`);
+                } else {
+                    skippedItems++;
+                }
+            } else {
+                skippedItems++;
+            }
+        }
+    }
+    
+    // 显示最终结果
+    alert(`批量更新完成！\n
+处理了 ${allLibraries.length} 个文库\n
+成功更新: ${updatedItems} 个条目\n
+跳过: ${skippedItems} 个条目\n
+处理出错: ${errorItems} 个条目`);
+})();
