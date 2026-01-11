@@ -1,0 +1,40 @@
+Sub CleanHeading1ChapterText_KeepMultilevelNumber()
+    Dim para As Paragraph
+    Dim r As Range
+    Dim txt As String
+    Dim reg As Object
+    
+    ' 匹配开头的“第X章”及其后面的空格/制表符
+    Set reg = CreateObject("VBScript.RegExp")
+    reg.Pattern = "^第[一二三四五六七八九十百千0-9]+章[ \t]*"
+    reg.IgnoreCase = False
+    reg.Global = False
+    
+    For Each para In ActiveDocument.Paragraphs
+        
+        ' 只处理 标题 1
+        If para.Style = ActiveDocument.Styles("标题 1") Then
+            
+            ' 只处理已经有多级列表编号的段落（避免误处理非编号标题）
+            If para.Range.ListFormat.ListType <> wdListNoNumbering Then
+                
+                ' 取除去段落标记的正文范围（不含 CR）
+                Set r = para.Range
+                r.End = r.End - 1   ' 去掉最后的段落标记
+                
+                txt = r.Text
+                
+                ' 在正文开头匹配 “第X章”
+                If reg.Test(txt) Then
+                    txt = reg.Replace(txt, "")
+                    txt = LTrim(txt)   ' 清理多余前导空格
+                    r.Text = txt       ' 只替换正文，不动编号和段落结构
+                End If
+                
+            End If
+        End If
+    Next para
+    
+    MsgBox "已在标题 1 正文中删除多余的“第X章”，多级列表编号保留。"
+End Sub
+
