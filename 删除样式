@@ -1,0 +1,34 @@
+Sub DeleteUnusedStyles()
+    Dim sty As Style
+    Dim para As Paragraph
+    Dim usedStyles As New Collection
+    Dim name As String
+    Dim i As Long
+    
+    ' 收集所有已使用的样式
+    For Each para In ActiveDocument.Paragraphs
+        On Error Resume Next
+        usedStyles.Add para.Style, para.Style
+        On Error GoTo 0
+    Next para
+    
+    ' 逆序删除未使用的样式（避免索引变化）
+    For i = ActiveDocument.Styles.Count To 1 Step -1
+        Set sty = ActiveDocument.Styles(i)
+        name = sty.NameLocal
+        
+        ' 跳过内置样式（系统样式不能删）
+        If sty.BuiltIn = False Then
+            On Error Resume Next
+            usedStyles.Item name
+            If Err.Number <> 0 Then
+                ' 未使用 → 删除
+                Err.Clear
+                sty.Delete
+            End If
+            On Error GoTo 0
+        End If
+    Next i
+    
+    MsgBox "未使用的自定义样式已全部删除！"
+End Sub
